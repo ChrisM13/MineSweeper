@@ -27,15 +27,16 @@ class Board {
     this.width = width;
     this.height = height;
     this.setNumMines(numMines)
-    this.generateBoard();
-    this.placeMines();
+    this.generateBoard()
+    this.placeMines()
+    this.placeNums()
     console.log('b')
   }
-  
+
   setNumMines(numMines) {
-    if ( numMines > (this.width * this.height)) {
+    if (numMines > (this.width * this.height)) {
       this.numMines = this.width * this.height
-    }else{
+    } else {
       this.numMines = numMines;
     }
   }
@@ -51,7 +52,7 @@ class Board {
     this.board = board
   }
   placeMines() {
-    
+
     while (this.numMines > 0) {
       var x = Math.floor(Math.random() * this.width)
       var y = Math.floor(Math.random() * this.height)
@@ -63,14 +64,30 @@ class Board {
       console.log('numMines = ', this.numMines)
       console.log('moving on -------------------')
     }
+  }
+  placeNums() {
+    //foreach elem on the board and check surrounding if no mine 
+      //heck up down left right (upleft) upright downleft downright
+      // add 1 to number of for each mine 
+   for ( var i = 0; i < this.width; i++) {
+      for(var j = 0; i < this.height; i++) {
+        if ( this.board[i][j].mine === true){
+          this.board[i-1][j-1].num +=1
+        }
+      }
+   }
+  }
+}
+ 
+var i = 3
+var j = 4
+// console.log(checkRight(1, 2, , 5))
 
-    //while more than 0 mines p
-    //pick a random rwo 
-    //pick a radom col 
-    //try to place to place the min in that cell
-    //if theres no mine place mine
-    //minus one from numMines
-    //else pick another cell 
+function checkRight(i, j, height, width) {
+  if (i+1 >= height || j + 1 >= width) {
+    console.log('do nothing, outside of board')
+  } else {
+    console.log('check board[i][j+1]')
   }
 }
 
