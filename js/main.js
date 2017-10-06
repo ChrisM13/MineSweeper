@@ -23,13 +23,22 @@ $msg = $('.message')
 /*----- functions -----*/
 class Board {
   constructor(numMines, width, height) {
-    this.numMines = numMines;
+    console.log('a')
     this.width = width;
     this.height = height;
+    this.setNumMines(numMines)
     this.generateBoard();
     this.placeMines();
+    console.log('b')
   }
-
+  
+  setNumMines(numMines) {
+    if ( numMines > (this.width * this.height)) {
+      this.numMines = this.width * this.height
+    }else{
+      this.numMines = numMines;
+    }
+  }
   generateBoard() {
     const board = []
     for (var i = 0; i < this.width; i++) {
@@ -42,14 +51,17 @@ class Board {
     this.board = board
   }
   placeMines() {
-    while ( this.numMines > 0 ) {
-    var x = Math.floor( Math.random()*this.width)
-    var y = Math.floor( Math.random()*this.height)
-    if ( this.board[x][y].mine === 'mine') {
-    }else{
-      this.board[x][y].mine = 'mine'
-    }
-    this.numMines -= 1 
+    
+    while (this.numMines > 0) {
+      var x = Math.floor(Math.random() * this.width)
+      var y = Math.floor(Math.random() * this.height)
+      if (this.board[x][y].mine === false) {
+        console.log('placing mine at x =', x, 'y =', y)
+        this.board[x][y].mine = true
+        this.numMines -= 1
+      }
+      console.log('numMines = ', this.numMines)
+      console.log('moving on -------------------')
     }
 
     //while more than 0 mines p
@@ -57,7 +69,7 @@ class Board {
     //pick a radom col 
     //try to place to place the min in that cell
     //if theres no mine place mine
-      //minus one from numMines
+    //minus one from numMines
     //else pick another cell 
   }
 }
