@@ -2,8 +2,6 @@
 
 
 
-
-
 /*----- app's state (variables) -----*/
 
 
@@ -40,60 +38,65 @@ class Board {
       this.numMines = numMines;
     }
   }
+
   generateBoard() {
     const board = []
-    for (var i = 0; i < this.width; i++) {
-      board[i] = new Array()
-      for (var j = 0; j < this.height; j++) {
-        board[i][j] = new Cell(false);
+    for (var row = 0; row < this.width; row++) {
+      board[row] = new Array()
+      for (var col = 0; col < this.height; col++) {
+        board[row][col] = new Cell(false, row, col, board);
       }
     }
-
     this.board = board
   }
-  placeMines() {
 
+  placeMines() {
     while (this.numMines > 0) {
       var x = Math.floor(Math.random() * this.width)
       var y = Math.floor(Math.random() * this.height)
       if (this.board[x][y].mine === false) {
-        console.log('placing mine at x =', x, 'y =', y)
         this.board[x][y].mine = true
         this.numMines -= 1
       }
-      console.log('numMines = ', this.numMines)
-      console.log('moving on -------------------')
     }
   }
-  placeNums() {
-    //foreach elem on the board and check surrounding if no mine 
-      //heck up down left right (upleft) upright downleft downright
-      // add 1 to number of for each mine 
-   for ( var i = 0; i < this.width; i++) {
-      for(var j = 0; i < this.height; i++) {
-        if ( this.board[i][j].mine === true){
-          this.board[i-1][j-1].num +=1
-        }
-      }
-   }
-  }
-}
- 
-var i = 3
-var j = 4
-// console.log(checkRight(1, 2, , 5))
 
-function checkRight(i, j, height, width) {
-  if (i+1 >= height || j + 1 >= width) {
-    console.log('do nothing, outside of board')
-  } else {
-    console.log('check board[i][j+1]')
+  placeNums() {
+    this.board.forEach(function (row) {
+      row.forEach(function (cell) {
+        cell.computeAdjacent();
+      })
+    });
   }
 }
 
 class Cell {
-  constructor(mine) {
+  constructor(mine, row, col, board) {
     this.hidden = true
     this.mine = mine
+    this.row = row
+    this.col = col
+    this.board = board
+    this.mineTotal = 0;
+  }
+
+  computeAdjacent() {
+    if (this.mine) return;
+    var total = 0
+    for (var row = this.row - 1; row < this.row + 2; row++) {
+      for (var col = this.col - 1; col < this.col + 2; col++) {
+        if (row >= 0 && row < this.board.length && col >= 0 && col < this.board[0].length) {
+          this.mineTotal += this.checkCell(row, col);
+        }
+      }
+    }
+  }
+
+  checkCell(row, col) {
+    return this.board[row][col].mine ? 1 : 0;
   }
 }
+
+// function handleClick() {
+
+// }
