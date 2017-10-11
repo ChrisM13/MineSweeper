@@ -17,11 +17,14 @@ $diff = $('.difficulty')
 
 /*----- event listeners -----*/
 // // $container.addEventListener('click', leftClick)
-$diff.on('click', function () {
-  setDiff($(this).attr('class'));
+$diff.on('click', 'button', function (evt) {
+  var td = $(evt.target);
+  var className = td.attr('class')
+  setDiff(className);
+  console.log(className)
 });
 
-$gameBoard.on('click', handleClick)
+$gameBoard.on('click', 'td', handleClick)
 
 
 
@@ -48,31 +51,45 @@ class Board {
 
   generateBoard() {
     const board = []
+    $container.html('');
     for (var row = 0; row < this.width; row++) {
       board[row] = new Array()
-      $container.append(`<tr class="row${row}"></tr>`)
+      $container.append(`<tr data-row="${row}"></tr>`)
       for (var col = 0; col < this.height; col++) {
         board[row][col] = new Cell(false, row, col, board);
-        $(`.row${row}`).append(`<td class="col${row}${col}"></td>`)
+        $(`tr[data-row="${row}"]`).append(`<td data-row="${row}" data-col="${col}"></td>`)
       }
     }
     this.board = board
   }
 
   render() {
-    for (var row = 0; row < this.width; row++) {
-      for (var col = 0; col < this.height; col++) {
-        var cell = this.board[row][col];
-        var $td = $(`.col${row}${col}`);
+    // for (var row = 0; row < this.width; row++) {
+    //   for (var col = 0; col < this.height; col++) {
+    //     var cell = this.board[row][col];
+    //     var $td = $(`.col${row}${col}`);
+    //     if (cell.hidden) {
+    //       $td.html('');
+    //     } else if (cell.mine) {
+    //       $td.addClass('alien');
+    //     } else {
+    //       $td.html(cell.mineTotal);
+    //     }
+    //   }
+    // }
+    this.board.forEach(function(row) {
+      row.forEach(function(cell) {
+        var $td = $(`td[data-row="${cell.row}"][data-col="${cell.col}"]`);
         if (cell.hidden) {
-          $td.html('h');
+          $td.html('');
         } else if (cell.mine) {
-          $td.html('m');
+          $td.addClass('alien');
         } else {
           $td.html(cell.mineTotal);
         }
-      }
-    }
+      });
+    });
+
   }
 
   revealAll() {
@@ -103,6 +120,18 @@ class Board {
       })
     });
   }
+
+  // checkWinner() {
+  //   if(this.board.forEach(function(row){
+  //     row.forEach(function(cell) {
+  //       if(!cell.mine) {
+  //         if(cell.hidden) {
+            
+  //         }
+  //       }
+  //     })
+  //   }))
+  // }
 }
 
 class Cell {
@@ -137,14 +166,13 @@ class Cell {
       newBoard.render()
       return
     }
-    if(this.mine) {
-      newBoard.win = false;
+    if (this.mine) {
+      newBoard.lose = false;
       newBoard.hidden = false;
       newBoard.revealAll();
       newBoard.render()
       return;
     }
-    console.log(this)
     if (this.mineTotal === 0) {
       for (var row = this.row - 1; row < this.row + 2; row++) {
         for (var col = this.col - 1; col < this.col + 2; col++) {
@@ -158,21 +186,14 @@ class Cell {
             if (cell.mineTotal > 0) {
               cell.hidden = false;
               cell.visted = true
-            }if (cell.visted) {
-          }else if (cell.mineTotal === 0) {
+            }
+            if (cell.visted) {
+            } else if (cell.mineTotal === 0) {
               cell.hidden = false
               cell.visted = true
               cell.reveal()
             }
           }
-  
-          //       if (this.board[row][col].mineTotal > 0) {
-          //         this.board[row][col].hidden = false
-          //         break;
-          //       }
-          //       if (this.board[row][col].mine) {
-          //         break;
-          // }
         }
       }
     }
@@ -188,41 +209,24 @@ function setDiff(diff) {
       newBoard.render()
       break;
     case "medium":
-      newBoard = new Board(40, 8, 11)
+      newBoard = new Board(20, 8, 13)
       newBoard.render()
       break;
     case "hard":
-      newBoard = new Board(99, 11, 14)
+      newBoard = new Board(27, 9, 15)
       newBoard.render()
       break;
     default:
-      newBoard = new Board(10, 5, 8)
-      newBoard.render()
   }
 }
 
 function handleClick(evt) {
   var td = $(evt.target);
-  var className = td.attr('class')
-  var arr = className.match(/[0-9]/ig)
-  if (!arr) return
-  var row = arr[0];
-  var col = arr[1];
+  var markFlag = evt.shiftKey;
+  var row = parseInt($(this).attr('data-row'));
+  var col = parseInt($(this).attr('data-col'));
   var cell = newBoard.board[row][col]
   cell.reveal()
-
-
-
-
-  // console.log(td.attr('class'));
-
-  // if (this.mine) {
-  //   $msg.html(`The Aliens Have Won!`)
-  //   revealAll()
-  //   return
-  // } else {
-  //   this.reveal()
-  // }
 }
 
 function init() {
