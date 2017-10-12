@@ -21,7 +21,6 @@ $diff.on('click', 'button', function (evt) {
   var td = $(evt.target);
   var className = td.attr('class')
   setDiff(className);
-  console.log(className)
 });
 
 $gameBoard.on('click', 'td', handleClick)
@@ -35,10 +34,14 @@ class Board {
     this.board;
     this.width = width;
     this.height = height;
+    this.winner = false
+    this.loser = false
+    this.totalMines = numMines
     this.setNumMines(numMines)
     this.generateBoard()
     this.placeMines()
     this.placeNums()
+    this.checkWinner()
   }
 
   setNumMines(numMines) {
@@ -64,21 +67,12 @@ class Board {
   }
 
   render() {
-    // for (var row = 0; row < this.width; row++) {
-    //   for (var col = 0; col < this.height; col++) {
-    //     var cell = this.board[row][col];
-    //     var $td = $(`.col${row}${col}`);
-    //     if (cell.hidden) {
-    //       $td.html('');
-    //     } else if (cell.mine) {
-    //       $td.addClass('alien');
-    //     } else {
-    //       $td.html(cell.mineTotal);
-    //     }
-    //   }
-    // }
-    this.board.forEach(function(row) {
-      row.forEach(function(cell) {
+    this.checkWinner()
+    if (this.winner) {
+      console.log("you won!")
+    }
+    this.board.forEach(function (row) {
+      row.forEach(function (cell) {
         var $td = $(`td[data-row="${cell.row}"][data-col="${cell.col}"]`);
         if (cell.hidden) {
           $td.html('');
@@ -89,7 +83,6 @@ class Board {
         }
       });
     });
-
   }
 
   revealAll() {
@@ -98,6 +91,8 @@ class Board {
         cell.hidden = false;
       })
     })
+    this.loser = true;
+    console.log("You Lose!")
     newBoard.render()
   }
 
@@ -108,7 +103,7 @@ class Board {
       if (this.board[x][y].mine === false) {
         this.board[x][y].mine = true
         this.numMines -= 1
-        console.log(this.board)
+        console.log(this.numMines)
       }
     }
   }
@@ -121,17 +116,22 @@ class Board {
     });
   }
 
-  // checkWinner() {
-  //   if(this.board.forEach(function(row){
-  //     row.forEach(function(cell) {
-  //       if(!cell.mine) {
-  //         if(cell.hidden) {
-            
-  //         }
-  //       }
-  //     })
-  //   }))
-  // }
+  checkWinner() {
+    var totalSafe = (this.width * this.height) - this.totalMines;
+    this.board.forEach(function (row) {
+      row.forEach(function (cell) {
+        if (!cell.mine) {
+          if (!cell.hidden) {
+            totalSafe -= 1;
+            console.log("totalSafe", totalSafe)
+          }
+          if (totalSafe === 0) {
+            // this.board.winner = true;
+          }
+        }
+      })
+    })
+  }
 }
 
 class Cell {
@@ -187,8 +187,7 @@ class Cell {
               cell.hidden = false;
               cell.visted = true
             }
-            if (cell.visted) {
-            } else if (cell.mineTotal === 0) {
+            if (cell.visted) {} else if (cell.mineTotal === 0) {
               cell.hidden = false
               cell.visted = true
               cell.reveal()
@@ -213,7 +212,7 @@ function setDiff(diff) {
       newBoard.render()
       break;
     case "hard":
-      newBoard = new Board(27, 9, 15)
+      newBoard = new Board(25, 9, 15)
       newBoard.render()
       break;
     default:
