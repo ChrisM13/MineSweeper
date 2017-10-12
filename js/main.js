@@ -69,7 +69,6 @@ class Board {
   render() {
     this.checkWinner()
     if (this.winner) {
-      console.log("you won!")
     }
     this.board.forEach(function (row) {
       row.forEach(function (cell) {
@@ -91,9 +90,11 @@ class Board {
         cell.hidden = false;
       })
     })
-    this.loser = true;
-    console.log("You Lose!")
+    $gameBoard.toggleClass("gameBoardLose");
     newBoard.render()
+    setTimeout(function() {
+      $gameBoard.toggleClass("gameBoardLose");
+    }, 2000);
   }
 
   placeMines() {
@@ -103,7 +104,6 @@ class Board {
       if (this.board[x][y].mine === false) {
         this.board[x][y].mine = true
         this.numMines -= 1
-        console.log(this.numMines)
       }
     }
   }
@@ -117,20 +117,22 @@ class Board {
   }
 
   checkWinner() {
-    var totalSafe = (this.width * this.height) - this.totalMines;
-    this.board.forEach(function (row) {
-      row.forEach(function (cell) {
-        if (!cell.mine) {
-          if (!cell.hidden) {
-            totalSafe -= 1;
-            console.log("totalSafe", totalSafe)
+    if (!this.loser) {
+      var totalSafe = (this.width * this.height) - this.totalMines;
+      this.board.forEach(function (row) {
+        row.forEach(function (cell) {
+          if (!cell.mine) {
+            if (!cell.hidden) {
+              totalSafe -= 1;
+            }
+            if (totalSafe === 0) {
+              newBoard.winner = true;
+            }
+
           }
-          if (totalSafe === 0) {
-            // this.board.winner = true;
-          }
-        }
+        })
       })
-    })
+    }
   }
 }
 
@@ -167,7 +169,7 @@ class Cell {
       return
     }
     if (this.mine) {
-      newBoard.lose = false;
+      newBoard.loser = true;
       newBoard.hidden = false;
       newBoard.revealAll();
       newBoard.render()
@@ -201,7 +203,6 @@ class Cell {
 }
 
 function setDiff(diff) {
-  //init() <-- clear old board
   switch (diff) {
     case "easy":
       newBoard = new Board(5, 5, 8)

@@ -1,6 +1,4 @@
-* {
-  
-}
+* {}
 
 body {
   background-image: url(../imgs/stars.gif);
@@ -14,11 +12,7 @@ body {
 }
 
 #gameBoard {
-    /* background-image: url(../imgs/id4.gif); */
-  margin: 0 auto;
-  background-size: 100% 100%;
-  border: 1px solid rgb(57, 255, 20);
-  border-collapse: collapse;
+
 }
 
 .difficulty {
@@ -27,10 +21,11 @@ body {
 }
 
 .container {
-  text-align: center;
-  display: center;
-  color: white;
-
+    margin: 0 auto;
+    background-size: 100% 100%;
+    border: 1px solid rgb(57, 255, 20);
+    border-collapse: collapse;
+    text-align: center;
 }
 
 td {
@@ -68,8 +63,24 @@ button:hover {
 }
 
 footer {
-    color: rgb(57, 255, 20);
+  color: rgb(57, 255, 20);
 }
+
+.gameBoardLose {
+    background-image: url(../imgs/id4.gif);
+    margin: 0 auto;
+    background-size: 100% 100%;
+}
+
+table.gameBoardLose td {
+    border-color: rgba(57, 255, 20, 0);
+    background-image: url('');
+    color: rgba(57, 255, 20, 0);
+}
+
+
+
+
 /* .winner1 {
     background-image: url(../imgs/dacingAlien.gif);
     display: flex;
@@ -81,5 +92,3 @@ footer {
     display: flex;
     justify-content: flex-end;
 } */
-
-
