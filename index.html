@@ -7,6 +7,8 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Mine Sweeper</title>
   <link rel="stylesheet" href="css/main.css">
+  <link href="https://fonts.googleapis.com/css?family=Bungee+Inline|Bungee+Outline" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
     crossorigin="anonymous"></script>
   <script defer src="js/main.js"></script>
@@ -15,19 +17,28 @@
 <body>
   <h1 class="title">Alien Sweeper</h1>
   <nav class="difficulty">
-    <tr><button class="easy">Easy</button></tr>
-    <tr><button class="medium">Medium</button></tr>
-    <tr><button class="hard">Hard</button></tr>
-    <!-- <tr>Custom</tr> Add after I'm done-->
+    <tr><button class="difficulty-btn easy">Easy</button></tr>
+    <tr><button class="difficulty-btn medium">Medium</button></tr>
+    <tr><button class="difficulty-btn hard">Hard</button></tr>
+    <tr><button class="instructions-btn">Instructions</button></tr>
   </nav>
+  <section id="instructions">
+    <p class="p1">The aliens have invaded! We need you to hunt them down before they destroy us!</p>
+    <p>Aliens are hiding on the board. Click on a square to see if an alien is hiding there. If you click on a square containing
+      an alien, you lose. If you click all the squares (without clicking on any aliens) you win!</p>
+    <p>Clicking a square which doesn't have an alien reveals the number of neighbouring squares containing bombs.</p>
+    <p>To open a square, point at the square and click on it. To mark a square you think contains an alien, point and Shift+Click.</p>
+  </section>
 
+  <div class='leftAlien'></div>
+  <div class='rightAlien'></div>
   <table id="gameBoard" class="container message">
     <div></div>
   </table>
-  <!-- <div class='winner1'></div>
-    <div class='winner2'></div> -->
-  <footer>basic rules
-    <input type="checkbox">Mute Background Music
+
+
+  <footer>
+    <input type="checkbox"><i class="fa fa-volume-up" aria-hidden="true"></i>
     <audio id="x-background" src="./sound/x-background.mp3" autoplay loop></audio>
     <audio id="explosion" src="sound/kaboom.mp3"></audio>
     <audio id="winSound" src="sound/winSound.mp3"></audio>
@@ -36,25 +47,3 @@
 </body>
 
 </html>
-
-<!-- 
-// make a 3x3 grid with one mine. scalability
-//create a game board table 10 x 16 grid/board (IceBox = allow multiple difficulties)
-//reset all the moves, score, time
-//randomly place mines and calculates the numbers
-//check for space not occupied by mines
-//if mine is hit the game is over and you lose
-//otherwise keep going
-//check all spaces on the board. stop if lose, win, or done.
-//if you click on mine. reveals the board and ends the game
-//if you click not the mine space is revealed as either empty or a number
-//if you right click place a flag if no flag otherwise remove flag
-
-
-    
-
-
-
-
-
- -->

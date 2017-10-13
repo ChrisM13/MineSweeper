@@ -1,6 +1,7 @@
 /*----- constants -----*/
 
 var newBoard;
+var showInstructions = true;
 
 /*----- app's state (variables) -----*/
 
@@ -9,19 +10,26 @@ var newBoard;
 
 /*----- cached element references -----*/
 $gameBoard = $('#gameBoard')
-$msg = $('.message')
 $container = $('.container')
-$diff = $('.difficulty')
+$diff = $('.difficulty-btn ')
 $bgCheckbox = $('input[type="checkbox"]');
-
-
+$instructions = $('#instructions')
+$instructionsBtn = $('.instructions-btn')
 /*----- event listeners -----*/
 
-$diff.on('click', 'button', function (evt) {
+$diff.on('click', function (evt) {
+  showInstructions = false;
   var td = $(evt.target);
   var className = td.attr('class')
+  console.log(className)
   setDiff(className);
+  hideAliens();
 });
+
+$instructionsBtn.on('click', function () {
+  showInstructions = !showInstructions;
+  renderInstructions()
+})
 
 $gameBoard.on('click', 'td', handleClick)
 
@@ -69,13 +77,13 @@ class Board {
   }
 
   render() {
-
+    renderInstructions();
     this.checkWinner()
     if (this.winner) {
       playSound()
       $gameBoard.toggleClass("gameBoardWin");
       setTimeout(function () {
-        $gameBoard.toggleClass("gameBoardLose");
+        $gameBoard.toggleClass("gameBoardWin");
       }, 5000);
     }
     this.board.forEach(function (row) {
@@ -107,6 +115,8 @@ class Board {
     setTimeout(function () {
       $gameBoard.toggleClass("gameBoardLose");
     }, 2148);
+    $('.leftAlien').toggleClass("loser1")
+    $('.rightAlien').toggleClass("loser2")
   }
 
   placeMines() {
@@ -216,16 +226,18 @@ class Cell {
 
 function setDiff(diff) {
   switch (diff) {
-    case "easy":
+    case "difficulty-btn easy":
       newBoard = new Board(5, 5, 8)
       newBoard.render()
       break;
-    case "medium":
+      case "difficulty-btn medium":
       newBoard = new Board(20, 8, 13)
+      showInstructions = false;
       newBoard.render()
       break;
-    case "hard":
+      case "difficulty-btn hard":
       newBoard = new Board(25, 9, 15)
+      showInstructions = false;
       newBoard.render()
       break;
     default:
@@ -262,7 +274,35 @@ function playSound() {
   }
 }
 
+function showAliens() {
+  $('leftAlien').show();
+  $('rightAlien').show();
+}
+
+function hideAliens() {
+  $('leftAlien').hide();
+  $('rightAlien').hide();
+}
+
+
+function renderInstructions() {
+  if (showInstructions === true) {
+    $gameBoard.fadeOut();
+    setTimeout(function () {
+      $instructions.fadeIn()
+    }, 300);
+  } else if (showInstructions === false) {
+    $instructions.fadeOut()
+    setTimeout(function () {
+      $gameBoard.fadeIn()
+    }, 300);
+  }
+}
+
 function init() {
-  setDiff('easy');
+  setDiff('difficulty-btn easy');
+  showInstructions = true;
+  renderInstructions();
+
 }
 init()
