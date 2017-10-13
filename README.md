@@ -23,6 +23,7 @@
 
 <h1>Installation instructions</h1>
 <a href="https://chrism13.github.io/MineSweeper/">Alien Sweeper Link</a>
+<br>
 <a href="https://trello.com/b/OGfLcDoq/project-1-alien-sweeper">Trello Link</a>
 
 <h1>Unsolved problems and/or planned features</h1>
