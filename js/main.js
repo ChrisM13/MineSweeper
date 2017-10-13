@@ -1,9 +1,9 @@
 /*----- constants -----*/
 
 var newBoard;
-var showInstructions = true;
 
 /*----- app's state (variables) -----*/
+var showInstructions = true;
 
 
 
@@ -114,8 +114,7 @@ class Board {
     setTimeout(function () {
       $gameBoard.toggleClass("gameBoardLose");
     }, 2148);
-    $('.leftAlien').toggleClass("loser1")
-    $('.rightAlien').toggleClass("loser2")
+    showAliens()
   }
 
   placeMines() {
@@ -226,17 +225,26 @@ class Cell {
 function setDiff(diff) {
   switch (diff) {
     case "difficulty-btn easy":
-      newBoard = new Board(5, 5, 8)
-      newBoard.render()
+      $gameBoard.fadeOut()
+      setTimeout(function () {
+        newBoard = new Board(5, 5, 8)
+        newBoard.render()
+      }, 275);
       break;
-      case "difficulty-btn medium":
-      newBoard = new Board(20, 8, 13)
+    case "difficulty-btn medium":
+      $gameBoard.fadeOut()
+      setTimeout(function () {
+        newBoard = new Board(20, 8, 13)
+        newBoard.render()
+      }, 275);
       showInstructions = false;
-      newBoard.render()
       break;
-      case "difficulty-btn hard":
-      newBoard = new Board(25, 9, 15)
-      showInstructions = false;
+    case "difficulty-btn hard":
+      $gameBoard.fadeOut()
+      setTimeout(function () {
+        newBoard = new Board(25, 9, 15)
+        showInstructions = false;
+      }, 275);
       newBoard.render()
       break;
     default:
@@ -274,15 +282,14 @@ function playSound() {
 }
 
 function showAliens() {
-  $('leftAlien').show();
-  $('rightAlien').show();
+  $('.leftAlien').fadeIn();
+  $('.rightAlien').fadeIn();
 }
 
 function hideAliens() {
-  $('leftAlien').hide();
-  $('rightAlien').hide();
+  $('.leftAlien').fadeOut();
+  $('.rightAlien').fadeOut();
 }
-
 
 function renderInstructions() {
   if (showInstructions === true) {
