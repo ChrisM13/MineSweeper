@@ -21,7 +21,6 @@ $diff.on('click', function (evt) {
   showInstructions = false;
   var td = $(evt.target);
   var className = td.attr('class')
-  console.log(className)
   setDiff(className);
   hideAliens();
 });

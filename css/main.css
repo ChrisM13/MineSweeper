@@ -15,7 +15,7 @@ body {
 }
 
 #gameBoard {
-    display: none;
+  display: none;
 }
 
 .difficulty {
@@ -29,7 +29,6 @@ body {
   border: 1px solid rgb(57, 255, 20);
   border-collapse: collapse;
   text-align: center;
-
 }
 
 td {
@@ -73,9 +72,9 @@ button:hover {
 
 footer {
   color: rgb(57, 255, 20);
- position: fixed;
- left: 10px;
- bottom: 10px;
+  position: fixed;
+  left: 10px;
+  bottom: 10px;
 }
 
 .gameBoardLose {
@@ -103,47 +102,46 @@ table.gameBoardLose td {
 }
 
 #instructions {
-    background-image: url(../imgs/stars.gif);
-    width: 50%;
-    margin: 0 auto;
-    background-color: white;
-    display: none;
-    font-family: 'Bungee Inline';
-    font-size: 35px;
+  background-image: url(../imgs/stars.gif);
+  width: 50%;
+  margin: 0 auto;
+  background-color: white;
+  display: none;
+  font-family: 'Bungee Inline';
+  font-size: 35px;
 }
 
 p {
-    text-align: center;
-    color: white;
-    font-size: 21px;
-    margin: 1 auto;
-
+  text-align: center;
+  color: white;
+  font-size: 21px;
+  margin: 1 auto;
 }
 
 .p1 {
-    text-align: center;
-    color: white;
-    font-size: 30px;
-    margin: 1 auto;
+  text-align: center;
+  color: white;
+  font-size: 30px;
+  margin: 1 auto;
 }
 
 .loser1 {
-    background-image: url(../imgs/dacingAlien.gif);
-    width: 150px;
-    height: 200px;
-    background-size: cover;
-    background-position: center;
-    position: absolute;
-    margin-left: 150px;
+  background-image: url(../imgs/dacingAlien.gif);
+  width: 150px;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  margin-left: 150px;
 }
 
 .loser2 {
-    background-image: url(../imgs/dacingAlien.gif);
-    width: 150px;
-    height: 200px;
-    background-size: cover;
-    background-position: center;
-    position: absolute;
-    right: 0;
-    margin-right: 150px;
+  background-image: url(../imgs/dacingAlien.gif);
+  width: 150px;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  right: 0;
+  margin-right: 150px;
 }
