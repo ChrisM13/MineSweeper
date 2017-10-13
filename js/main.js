@@ -12,11 +12,11 @@ $gameBoard = $('#gameBoard')
 $msg = $('.message')
 $container = $('.container')
 $diff = $('.difficulty')
-
+$bgCheckbox = $('input[type="checkbox"]');
 
 
 /*----- event listeners -----*/
-// // $container.addEventListener('click', leftClick)
+
 $diff.on('click', 'button', function (evt) {
   var td = $(evt.target);
   var className = td.attr('class')
@@ -24,6 +24,8 @@ $diff.on('click', 'button', function (evt) {
 });
 
 $gameBoard.on('click', 'td', handleClick)
+
+$bgCheckbox.on('change', checkBoxSound)
 
 
 
@@ -67,8 +69,14 @@ class Board {
   }
 
   render() {
+
     this.checkWinner()
     if (this.winner) {
+      playSound()
+      $gameBoard.toggleClass("gameBoardWin");
+      setTimeout(function () {
+        $gameBoard.toggleClass("gameBoardLose");
+      }, 5000);
     }
     this.board.forEach(function (row) {
       row.forEach(function (cell) {
@@ -77,6 +85,8 @@ class Board {
           $td.html('');
         } else if (cell.mine) {
           $td.addClass('alien');
+        } else if (cell.mineTotal === 0) {
+          $td.html("-")
         } else {
           $td.html(cell.mineTotal);
         }
@@ -90,11 +100,13 @@ class Board {
         cell.hidden = false;
       })
     })
+    playSound()
     $gameBoard.toggleClass("gameBoardLose");
+    $('td').removeClass("flag")
     newBoard.render()
-    setTimeout(function() {
+    setTimeout(function () {
       $gameBoard.toggleClass("gameBoardLose");
-    }, 2000);
+    }, 2148);
   }
 
   placeMines() {
@@ -226,7 +238,28 @@ function handleClick(evt) {
   var row = parseInt($(this).attr('data-row'));
   var col = parseInt($(this).attr('data-col'));
   var cell = newBoard.board[row][col]
-  cell.reveal()
+
+  if (markFlag) {
+    td.toggleClass('flag')
+  } else {
+    cell.reveal()
+  }
+}
+
+function checkBoxSound() {
+  var backgroundSound = $('#x-background')
+  $bgCheckbox.is(':checked') ? backgroundSound[0].pause() : backgroundSound[0].play();
+}
+
+function playSound() {
+  var loseSound = $('#explosion')[0];
+  var winSound = $('#winSound')[0];
+  if (newBoard.loser) {
+    loseSound.play()
+  }
+  if (newBoard.winner) {
+    winSound.play()
+  }
 }
 
 function init() {
