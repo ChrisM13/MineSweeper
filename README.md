@@ -1,7 +1,7 @@
 <h1>Alien Sweeper</h1>
 <p>Aliens are hiding on the board. Click on a square to see if an alien is hiding there. If you click on a square containing
       an alien, you lose. If you click all the squares (without clicking on any aliens) you win!</p>
-    <p>Clicking a square which doesn't have an alien reveals the number of neighbouring squares containing bombs.</p>
+    <p>Clicking a square which doesn't have an alien reveals the number of neighbouring squares containing Aliens.</p>
     <p>To open a square, point at the square and click on it. To mark a square you think contains an alien, point and Shift+Click.</p>
 <h1>Screen Shots</h1>
 <p>Starting Board with Instructions</P>
